@@ -8,11 +8,34 @@ async function getHtmlTextByUrl(url, callback){
   }
 }
 
+async function saveRSSFeed(params, callback){
+  try {
+    const headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${ACCESS_TOKEN}`
+    };
+
+    const response = await fetch('https://collective-times-api.herokuapp.com/v1/sites', {
+      method: 'POST',
+      headers: headers,
+      body:  JSON.stringify(params)
+    });
+    const status = await response.ok;
+    if(status){
+      callback('Feedの登録成功');
+    }else{
+      callback('Feedの登録失敗');
+    }
+  } catch(e) {
+    callback('Feedの登録失敗');
+  }
+}
+
 function findFeedsByHtmlBody(url, body, callback){
   if(!url){
     return;
   }
-
   if(body === ''){
     callback([]);
   }
@@ -57,7 +80,9 @@ function findFeedsByHtmlBody(url, body, callback){
         contentsUrl: contentsUrl,
         feedUrl: feedUrl,
         feedType: links[i].getAttribute('type'),
-        feedTitle: links[i].getAttribute('title') || feedUrl,
+        feedTitle: feedUrl,
+        // 何故かJSONに変換すると狂う
+        // feedTitle: links[i].getAttribute('title').replace(' ', '') || feedUrl,
       });
     }
   }
@@ -69,10 +94,9 @@ function render(html){
   document.getElementById('feeds').innerHTML = html;
 }
 
-function onClickData(event) {
+function onClickFeed(event) {
   const data = JSON.parse(event.target.dataset.feed);
-
-  let body = {
+  let params = {
     title: data.contentsUrl,
     feedUrl: data.feedUrl,
     sourceUrl: data.contentsUrl,
@@ -80,8 +104,9 @@ function onClickData(event) {
     type: "rss"
   };
 
-
-  render(body);
+  saveRSSFeed(params, (resultMessage) => {
+    render(resultMessage);
+  });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -106,9 +131,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const html = `<h2>Candidate</h2><ul>${dataList}</ul><h2>Feed</h2><ul>${feedList}</ul>`;
         render(html);
 
-        feeds.each((index) => {
-          const button = document.getElementById("feed${index}");
-          button.onclick = onClickData;
+        feeds.forEach((feed, index) => {
+          const button = document.getElementById(`feed${index}`);
+          button.onclick = onClickFeed;
         });
       });
     });
