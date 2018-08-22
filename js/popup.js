@@ -80,9 +80,7 @@ function findFeedsByHtmlBody(url, body, callback){
         contentsUrl: contentsUrl,
         feedUrl: feedUrl,
         feedType: links[i].getAttribute('type'),
-        feedTitle: feedUrl,
-        // 何故かJSONに変換すると狂う
-        // feedTitle: links[i].getAttribute('title').replace(' ', '') || feedUrl,
+        feedTitle: links[i].getAttribute('title').replace(' ', '') || feedUrl,
       });
     }
   }
@@ -97,15 +95,21 @@ function render(html){
 function onClickFeed(event) {
   const data = JSON.parse(event.target.dataset.feed);
   let params = {
-    title: data.contentsUrl,
     feedUrl: data.feedUrl,
     sourceUrl: data.contentsUrl,
     crawlable: true,
     type: "rss"
   };
 
-  saveRSSFeed(params, (resultMessage) => {
-    render(resultMessage);
+  getHtmlTextByUrl(data.feedUrl, (url, body) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(body, "text/xml");
+    const title = doc.querySelector('title').textContent;
+
+    params['title'] = title;
+    saveRSSFeed(params, (resultMessage) => {
+      render(resultMessage);
+    });
   });
 }
 
@@ -121,12 +125,14 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
 
-        const dataList = feeds.map((feed, index) => {
-          const data = JSON.stringify(feed);
-          return `<li><button id="feed${index}" data-feed=${data}>${feed.feedTitle}</button></li>`;
-        });
         const feedList = feeds.map((feed) => {
           return `<li><a href="${feed.feedUrl}" title="${feed.feedType}" target="_blank">${feed.feedTitle}</a></li>`;
+        });
+        const dataList = feeds.map((feed, index) => {
+          const title = feed.feedTitle;
+          delete feed.feedTitle; // remove title key(json bug)
+          const data = JSON.stringify(feed);
+          return `<li><button id="feed${index}" data-feed=${data}>${title}</button></li>`;
         });
         const html = `<h2>Candidate</h2><ul>${dataList}</ul><h2>Feed</h2><ul>${feedList}</ul>`;
         render(html);
