@@ -126,15 +126,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const feedList = feeds.map((feed) => {
-          return `<li><a href="${feed.feedUrl}" title="${feed.feedType}" target="_blank">${feed.feedTitle}</a></li>`;
+          return `<li><a class="detected__category-feeds-list-link" href="${feed.feedUrl}" title="${feed.feedType}" target="_blank">${feed.feedTitle}</a></li>`;
         });
         const dataList = feeds.map((feed, index) => {
           const title = feed.feedTitle;
           delete feed.feedTitle; // remove title key(json bug)
           const data = JSON.stringify(feed);
-          return `<li><button id="feed${index}" data-feed=${data}>${title}</button></li>`;
+          return `<li><button id="feed${index}" class="detected__category-feeds-list-button" data-feed=${data}>${title}</button></li>`;
         });
-        const html = `<h2>Candidate</h2><ul>${dataList}</ul><h2>Feed</h2><ul>${feedList}</ul>`;
+        // Care: Array.toString
+        // https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/toString
+        const html = `<div class="detected__category">
+                        <div class="detected__category-name"><span class="detected__category-name-title">CollectiveTimesへ登録</span></div>
+                        <div class="detected__category-feeds">
+                          <ul class="detected__category-feeds-list">${dataList.join('')}</ul></div>
+                      </div>
+                      <div class="detected__category">
+                        <div class="detected__category-name"><span class="detected__category-name-title">Feedリンク</span></div>
+                        <div class="detected__category-feeds">
+                         <ul class="detected__category-feeds-list">${feedList.join('')}</ul>
+                        </div>
+                      <div>`;
         render(html);
 
         feeds.forEach((feed, index) => {
