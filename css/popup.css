@@ -1,28 +1,31 @@
 body {
-    background-color: #000;
     margin: 0;
 }
 
 .header {
+    padding: 8px;
     align-items: center;
-    //    background: linear-gradient(160deg, #32067c, #150233);
     background: linear-gradient(160deg, #a3f153, #d5f9b6);
+    display: flex;
+    flex-direction: row;
+}
 
+.header__logo {
+    width: 32px;
+    height: 32px;
 }
 
 .header h1 {
-    margin: 0;
-    padding: 8px;
+    margin-left: 16px;
     font-size: 14px;
     font-weight: normal;
+    font-family: sans-serif;
     letter-spacing: 1px;
     text-align: center;
-    color: #fff;
-    font-family: sans-serif;
+    color: #57575b;
 }
 
 .footer {
- //   background-color: #f0f0f0;
     padding: 4px;
     color: #7C7C7C;
     font-size: 12px;
@@ -38,9 +41,10 @@ body {
 }
 
 .container {
-    width: 280px;
+    width: 320px;
     min-height: 52px;
-    font-size: 14px;
+    margin: 8px;
+    font-size: 12px;
     font-family: sans-serif;
 }
 
@@ -52,7 +56,7 @@ body {
 }
 
 .detected__category-name-title {
-    color: #4608ad;
+    color: #57575b;
     font-weight: bold;
     line-height: 2rem;
     text-shadow: rgba(255, 255, 255, 0.74902) 0px 0px 1px;
@@ -78,7 +82,7 @@ body {
     margin-top: 4px;
     margin-bottom: 4px;
     background-color: #a3f153;
-    color: #000;
+    color: #57575b;
     padding: 8px;
     text-transform: uppercase;
     font-size: 12px;
@@ -101,7 +105,7 @@ body {
 
 @keyframes loader-anim {
     50% {
-        box-shadow: #B1B1B1 65px 0, #B1B1B1 120px 0, #B1B1B1 -65px 0, #B1B1B1 -120px 0; 
+        box-shadow: #B1B1B1 65px 0, #B1B1B1 120px 0, #B1B1B1 -65px 0, #B1B1B1 -120px 0;
         transform: scale(.7)
     }
 }
