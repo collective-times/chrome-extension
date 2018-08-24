@@ -1,0 +1,124 @@
+body {
+    margin: 0;
+}
+
+.header {
+    padding: 8px;
+    align-items: center;
+    background: linear-gradient(160deg, #a3f153, #d5f9b6);
+    display: flex;
+    flex-direction: row;
+}
+
+.header__logo {
+    width: 32px;
+    height: 32px;
+}
+
+.header h1 {
+    margin-left: 16px;
+    font-size: 14px;
+    font-weight: normal;
+    font-family: sans-serif;
+    letter-spacing: 1px;
+    text-align: center;
+    color: #57575b;
+}
+
+.footer {
+    padding: 4px;
+    color: #7C7C7C;
+    font-size: 12px;
+    text-align: center;
+}
+
+.footer__prefix {}
+
+.footer__link {
+    color: #7C7C7C;
+    line-height: 1.7rem;
+    text-decoration: none;
+}
+
+.container {
+    width: 320px;
+    min-height: 52px;
+    margin: 8px;
+    font-size: 12px;
+    font-family: sans-serif;
+}
+
+.detected__category {}
+
+.detected__category-name {
+    border-bottom: 1px solid #dbdbdb;
+    display: block;
+}
+
+.detected__category-name-title {
+    color: #57575b;
+    font-weight: bold;
+    line-height: 2rem;
+    text-shadow: rgba(255, 255, 255, 0.74902) 0px 0px 1px;
+    letter-spacing: 2px;
+    padding: 4px 0px 4px 0px;
+}
+
+.detected__category-feeds {
+    display: flex;
+    flex-direction: column;
+    padding : 0;
+}
+
+.detected__category-feeds-list {
+    list-style: none;
+    cursor: pointer;
+    padding : 0;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.detected__category-feeds-list-button {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    background-color: #a3f153;
+    color: #57575b;
+    padding: 8px;
+    text-transform: uppercase;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.detected__category-feeds-list-link {
+    list-style: none;
+    cursor: pointer;
+    font-size: 12px;
+    color: #7C7C7C;
+    line-height: 1.7rem;
+    text-decoration: none;
+}
+
+.rss-feed-url #rss-feed-url_response {
+    display: none;
+}
+
+@keyframes loader-anim {
+    50% {
+        box-shadow: #B1B1B1 65px 0, #B1B1B1 120px 0, #B1B1B1 -65px 0, #B1B1B1 -120px 0;
+        transform: scale(.7)
+    }
+}
+
+.loader {
+    margin-top: 30px;
+    width: 10px;
+    height: 10px;
+    background: #B1B1B1;
+    border-radius: 50%;
+    position: absolute;
+    top: calc(50% - 20px);
+    left: calc(50% - 20px);
+    box-shadow: #B1B1B1 20px 0, #B1B1B1 40px 0, #B1B1B1 -20px 0, #B1B1B1 -40px 0;
+    animation: loader-anim 1s infinite;
+}
